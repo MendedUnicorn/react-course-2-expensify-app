@@ -6,6 +6,7 @@ module.exports = (env) => {
   const CSSExtract = new ExtractTextPlugin('styles.css');
 
   return {
+    target: 'node',
     entry: './src/app.js',
     output: {
       path: path.join(__dirname, 'public'),
