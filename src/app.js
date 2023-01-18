@@ -11,6 +11,8 @@ import { addExpense } from './actions/expenses';
 import { setTextFilter } from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
 import AppRouter from './routers/AppRouter';
+import './firebase/firebase';
+// import './playground/promises';
 
 const store = configureStore();
 
