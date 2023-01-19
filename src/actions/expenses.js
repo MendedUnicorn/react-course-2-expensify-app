@@ -1,4 +1,4 @@
-import { push, ref } from 'firebase/database';
+import { get, onValue, push, ref } from 'firebase/database';
 import uuid from 'uuid';
 import db from '../firebase/firebase';
 
@@ -17,7 +17,7 @@ export const startAddExpense = (expenseData = {}) => {
       createdAt = 0,
     } = expenseData;
     const expense = { description, note, amount, createdAt };
-    return push(ref(db, 'expense'), expense)
+    return push(ref(db, 'expenses'), expense)
       .then((ref) => {
         dispatch(addExpense({ id: ref.key, ...expense }));
       })
@@ -37,3 +37,24 @@ export const editExpense = (id, updates) => ({
   id,
   updates,
 });
+
+// SET_EXPENSES
+
+export const setExpenses = (expenses) => ({
+  type: 'SET_EXPENSES',
+  expenses,
+});
+
+export const startSetExpenses = (expenses = []) => {
+  return (dispatch) => {
+    return get(ref(db, 'expenses'))
+      .then((snap) => {
+        const data = [];
+        snap.forEach((s) => {
+          data.push({ id: s.key, ...s.val() });
+        });
+        dispatch(setExpenses(data));
+      })
+      .catch((err) => console.log('error ', err));
+  };
+};

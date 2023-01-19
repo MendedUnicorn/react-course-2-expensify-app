@@ -7,7 +7,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import './styles/styles.scss';
 
 import configureStore from './store/configureStore';
-import { addExpense } from './actions/expenses';
+import { addExpense, startSetExpenses } from './actions/expenses';
 import { setTextFilter } from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
 import AppRouter from './routers/AppRouter';
@@ -22,4 +22,8 @@ const jsx = (
   </Provider>
 );
 
-ReactDOM.render(jsx, document.getElementById('app'));
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+store.dispatch(startSetExpenses()).then(() => {
+  ReactDOM.render(jsx, document.getElementById('app'));
+});
