@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 //yarn const { webpack } = require('webpack');
 const webpack = require('webpack');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 if (process.env.NODE_ENV === 'test') {
   require('dotenvT').config({ path: '.env.test' });
