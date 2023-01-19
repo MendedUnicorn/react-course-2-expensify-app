@@ -7,7 +7,7 @@
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
-    "build:prod2": "webpack --env production",
+    "build:prod2": "webpack --env production NODE_ENV=production",
     "dev-server": "webpack-dev-server",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
     "start": "node server/server.js",
