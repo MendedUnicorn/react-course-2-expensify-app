@@ -1,7 +1,8 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-//const { webpack } = require('webpack');
+//yarn const { webpack } = require('webpack');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
