@@ -4,6 +4,7 @@ import {
   removeExpense,
   setExpenses,
   startAddExpense,
+  startEditExpense,
   startRemoveExpense,
   startSetExpenses,
 } from '../../actions/expenses';
@@ -30,6 +31,25 @@ test('Should setup remove expense action object', () => {
     id: '123abc',
   });
 });
+test('should remove the expense from firebase', (done) => {
+  const store = createMockStore({});
+  const id = expenses[1].id;
+  store
+    .dispatch(startRemoveExpense({ id }))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: 'REMOVE_EXPENSE',
+        id,
+      });
+      return get(ref(db, `expenses/${id}`));
+    })
+    .then((snap) => {
+      expect(snap.val()).toBeFalsy();
+      done();
+    });
+});
+
 test('Should setup edit expense action object', () => {
   const action = editExpense('123abc', { note: 'New note value' });
   expect(action).toEqual({
@@ -40,6 +60,33 @@ test('Should setup edit expense action object', () => {
     },
   });
 });
+test('should edit expense from firestore', (done) => {
+  const store = createMockStore({});
+  const id = expenses[1].id;
+  const updates = {
+    amount: 300000,
+    note: 'Rent increased',
+  };
+  store
+    .dispatch(startEditExpense(id, updates))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: 'EDIT_EXPENSE',
+        updates,
+        id,
+      });
+      return get(ref(db, `expenses/${id}`));
+    })
+    .then((snap) => {
+      expect({ id: snap.key, ...snap.val() }).toEqual({
+        ...expenses[1],
+        ...updates,
+      });
+      done();
+    });
+});
+
 test('Should setup add expense action object with provided values', () => {
   const action = addExpense(expenses[2]);
   expect(action).toEqual({
@@ -120,23 +167,4 @@ test('should fetch the expenses from firebase', (done) => {
     });
     done();
   });
-});
-
-test('should remove the expense from firebase', (done) => {
-  const store = createMockStore({});
-  const id = expenses[1].id;
-  store
-    .dispatch(startRemoveExpense({ id }))
-    .then(() => {
-      const actions = store.getActions();
-      expect(actions[0]).toEqual({
-        type: 'REMOVE_EXPENSE',
-        id,
-      });
-      return get(ref(db, `expenses/${id}`));
-    })
-    .then((snap) => {
-      expect(snap.val()).toBeFalsy();
-      done();
-    });
 });

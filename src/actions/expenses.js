@@ -1,4 +1,4 @@
-import { get, onValue, push, ref, remove } from 'firebase/database';
+import { get, onValue, push, ref, remove, update } from 'firebase/database';
 import uuid from 'uuid';
 import db from '../firebase/firebase';
 
@@ -47,6 +47,16 @@ export const editExpense = (id, updates) => ({
   id,
   updates,
 });
+
+export const startEditExpense = (id, updates) => {
+  return (dispatch) => {
+    return update(ref(db, `expenses/${id}`), updates)
+      .then(() => {
+        dispatch(editExpense(id, updates));
+      })
+      .catch((err) => console.log('error: ', err));
+  };
+};
 
 // SET_EXPENSES
 

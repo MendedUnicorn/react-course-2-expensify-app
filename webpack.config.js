@@ -6,9 +6,9 @@ const webpack = require('webpack');
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 if (process.env.NODE_ENV === 'test') {
-  require('dotenvT').config({ path: '.env.test' });
+  require('dotenv').config({ path: '.env.test' });
 } else if (process.env.NODE_ENV === 'development') {
-  require('dotenvD').config({ path: '.env.development' });
+  require('dotenv').config({ path: '.env.development' });
 }
 
 module.exports = (env) => {
