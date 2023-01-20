@@ -5,6 +5,7 @@ import {
   onChildRemoved,
   onChildChanged,
 } from 'firebase/database';
+import { GoogleAuthProvider, Auth, getAuth } from 'firebase/auth';
 import expenses from '../tests/fixtures/expenses';
 
 const firebaseConfig = {
@@ -19,8 +20,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth();
+const googleAuthProvider = new GoogleAuthProvider();
 
-export { app, db as default };
+export { app, auth, googleAuthProvider, db as default };
 
 // push(ref(db, 'expenses'), {
 //   description: 'Water Bill',
