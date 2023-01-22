@@ -13,6 +13,7 @@ import getVisibleExpenses from './selectors/expenses';
 import AppRouter, { history } from './routers/AppRouter';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase/firebase';
+import LoadingPage from './components/LoadingPage';
 // import './playground/promises';
 
 const store = configureStore();
@@ -31,7 +32,7 @@ const renderApp = () => {
   }
 };
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
